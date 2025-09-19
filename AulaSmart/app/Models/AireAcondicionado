@@ -1,0 +1,58 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\AireAcondicionado;
+use Illuminate\Http\Request;
+
+class AireAcondicionadoController extends Controller
+{
+    public function index()
+    {
+        $aires = AireAcondicionado::all();
+        return view('aire_acondicionado.index', compact('aires'));
+    }
+
+    public function create()
+    {
+        return view('aire_acondicionado.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+        ]);
+
+        AireAcondicionado::create($request->all());
+
+        return redirect()->route('aire_acondicionado.index');
+    }
+
+    public function show(AireAcondicionado $aireAcondicionado)
+    {
+        return view('aire_acondicionado.show', compact('aireAcondicionado'));
+    }
+
+    public function edit(AireAcondicionado $aireAcondicionado)
+    {
+        return view('aire_acondicionado.edit', compact('aireAcondicionado'));
+    }
+
+    public function update(Request $request, AireAcondicionado $aireAcondicionado)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+        ]);
+
+        $aireAcondicionado->update($request->all());
+
+        return redirect()->route('aire_acondicionado.index');
+    }
+
+    public function destroy(AireAcondicionado $aireAcondicionado)
+    {
+        $aireAcondicionado->delete();
+        return redirect()->route('aire_acondicionado.index');
+    }
+}
